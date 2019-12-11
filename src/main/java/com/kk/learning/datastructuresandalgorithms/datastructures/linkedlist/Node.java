@@ -2,7 +2,7 @@ package com.kk.learning.datastructuresandalgorithms.datastructures.linkedlist;
 
 public class Node {
     private int data;
-    private Node nextNode;
+    private Node next;
 
     public Node(int data) {
         this.data = data;
@@ -16,11 +16,11 @@ public class Node {
         this.data = data;
     }
 
-    public Node getNextNode() {
-        return nextNode;
+    public Node getNext() {
+        return next;
     }
 
-    public void setNextNode(Node nextNode) {
-        this.nextNode = nextNode;
+    public void setNext(Node nextNode) {
+        this.next = nextNode;
     }
 }

@@ -40,4 +40,42 @@ public class DoublyLinkedList {
             head = newNode;
         }
     }
+
+
+    public void insertionSort(){
+
+        DNode outer = head;
+        while (outer.getNext() != null){
+            DNode inner = outer.getNext();
+            DNode current = outer;
+            while (current.getPrevious() != null && current.getPrevious().getData() > inner.getData()){
+                current = current.getPrevious();
+            }
+            if( current == head){
+                if(inner.getNext() != null){
+                    inner.getNext().setPrevious(inner.getPrevious());
+                }
+                inner.getPrevious().setNext(inner.getNext());
+                current.setPrevious(inner);
+                inner.setNext(current);
+                inner.setPrevious(null);
+                head = inner;
+                outer = head.getNext();
+            }else if (current != outer) {
+                if(inner.getNext() != null){
+                    inner.getNext().setPrevious(inner.getPrevious());
+                }
+                inner.getPrevious().setNext(inner.getNext());
+                inner.setNext(current);
+                inner.setPrevious(current.getPrevious());
+                current.getPrevious().setNext(inner);
+                current.setPrevious(inner);
+                outer = outer.getNext();
+            }else {
+                outer = outer.getNext();
+            }
+        }
+    }
+
+
 }

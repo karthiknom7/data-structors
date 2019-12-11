@@ -28,5 +28,18 @@ public class DoublyLinkedListTest {
         assertEquals("[7,5,4,3,1]", linkedList.toString());
     }
 
+    @Test
+    public void shouldTestInsertionSort() {
+        DoublyLinkedList linkedList = new DoublyLinkedList();
+        linkedList.insertAtHead(6);
+        linkedList.insertAtHead(3);
+        linkedList.insertAtHead(4);
+        linkedList.insertAtHead(7);
+        linkedList.insertAtHead(1);
+        linkedList.insertAtHead(8);
+        assertEquals("[8,1,7,4,3,6]", linkedList.toString());
+        linkedList.insertionSort();
+        assertEquals("[3,4,6,7]", linkedList.toString());
 
+    }
 }

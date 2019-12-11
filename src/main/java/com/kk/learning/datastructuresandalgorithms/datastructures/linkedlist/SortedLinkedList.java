@@ -9,17 +9,17 @@ public class SortedLinkedList {
             head = new Node(data);
         else if(data <= head.getData()){
             Node newNode = new Node(data);
-            newNode.setNextNode(head);
+            newNode.setNext(head);
             head = newNode;
         }
         else {
             Node current = head;
-            while (current.getNextNode() != null && data >= current.getNextNode().getData()){
-                current = current.getNextNode();
+            while (current.getNext() != null && data >= current.getNext().getData()){
+                current = current.getNext();
             }
             Node newNode = new Node(data);
-            newNode.setNextNode(current.getNextNode());
-            current.setNextNode(newNode);
+            newNode.setNext(current.getNext());
+            current.setNext(newNode);
         }
 
     }
@@ -29,9 +29,9 @@ public class SortedLinkedList {
         if (head == null) return "[]";
         StringBuilder str = new StringBuilder( "[");
         Node current = head;
-        while (current.getNextNode() != null) {
+        while (current.getNext() != null) {
             str.append(current.getData()).append( ",");
-            current = current.getNextNode();
+            current = current.getNext();
         }
         str.append(current.getData()).append( "]");
         return str.toString();
