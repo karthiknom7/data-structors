@@ -44,4 +44,11 @@ public class SortingAlgorithmsTest {
         log.info("Output : " + Arrays.toString(input));
         assertArrayEquals(expectedOutput, input);
     }
+
+    @Test
+    public void testMergeSort() {
+        sortingAlgorithms.mergeSort(input);
+        log.info("Output : " + Arrays.toString(input));
+        assertArrayEquals(expectedOutput, input);
+    }
 }
