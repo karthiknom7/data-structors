@@ -71,7 +71,66 @@ public class TreeNode {
         return  result;
     }
 
-    public TreeNode delete(Integer data){
-       return null;
+    public void delete(Integer data){
+       if(data < this.data){
+           if(this.leftChild != null ){
+               if( data == this.leftChild.data) {
+                   TreeNode deleteNode = this.leftChild;
+                   //if leaf node
+                   if(deleteNode.leftChild == null && deleteNode.rightChild == null){
+                       this.setLeftChild(null);
+                   }else if(deleteNode.leftChild != null && deleteNode.rightChild != null){
+                       this.leftChild = deleteNode.leftChild;
+                       this.leftChild.rightChild = deleteNode.rightChild;
+                   }else if(deleteNode.leftChild != null){
+                       this.leftChild = deleteNode.leftChild;
+                   }else{
+                       this.leftChild = deleteNode.rightChild;
+                   }
+               }else {
+                   this.leftChild.delete(data);
+               }
+           }
+       }else {
+           if(this.rightChild != null){
+               if(data == this.rightChild.data){
+                   TreeNode deleteNode = this.rightChild;
+                   //if leaf node
+                   if(deleteNode.leftChild == null && deleteNode.rightChild == null){
+                       this.setRightChild(null);
+                   }else if(deleteNode.leftChild != null && deleteNode.rightChild != null){
+                       this.rightChild = deleteNode.rightChild;
+                       this.rightChild.leftChild = deleteNode.leftChild;
+                   }else if(deleteNode.rightChild != null){
+                       this.rightChild = deleteNode.rightChild;
+                   }else{
+                       this.rightChild = deleteNode.leftChild;
+                   }
+               }else {
+                   rightChild.delete(data);
+               }
+           }
+       }
+    }
+
+    public int countLeafNodes(){
+        int leafNodes = 0;
+        if(this.getLeftChild() == null && this.getRightChild() == null){
+            return leafNodes+=1;
+        }
+        if(this.leftChild != null){
+            leafNodes+= this.leftChild.countLeafNodes();
+        }
+        if(this.rightChild != null){
+            leafNodes += this.rightChild.countLeafNodes();
+        }
+        return leafNodes;
+    }
+
+    public int heightOfTree(){
+        int height = 1;
+        int leftHeight = this.leftChild !=null ? this.leftChild.heightOfTree() + height : height;
+        int rightHeight = this.rightChild !=null ? this.rightChild.heightOfTree() + height : height;
+        return leftHeight > rightHeight? leftHeight : rightHeight;
     }
 }
