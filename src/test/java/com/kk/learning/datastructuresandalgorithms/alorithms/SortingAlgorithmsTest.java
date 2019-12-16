@@ -47,7 +47,16 @@ public class SortingAlgorithmsTest {
 
     @Test
     public void testMergeSort() {
+        log.info("Output : " + Arrays.toString(input));
         sortingAlgorithms.mergeSort(input);
+        log.info("Output : " + Arrays.toString(input));
+        assertArrayEquals(expectedOutput, input);
+    }
+
+    @Test
+    public void testQuickSort() {
+        log.info("input : " + Arrays.toString(input));
+        sortingAlgorithms.quickSort(input);
         log.info("Output : " + Arrays.toString(input));
         assertArrayEquals(expectedOutput, input);
     }

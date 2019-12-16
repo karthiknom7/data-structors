@@ -100,4 +100,31 @@ public class SortingAlgorithms {
         }
 
     }
+
+    public void quickSort(int[] input) {
+        quickSort(input, 0, input.length-1);
+    }
+
+    private void quickSort(int[] input, int start, int end){
+        if(start < end){
+            int pivot = partition(input, start, end);
+            quickSort(input, start, pivot-1);
+            quickSort(input, pivot+1, end );
+        }
+    }
+    private int partition(int[] input , int start, int end){
+        int pivot = input[end];
+        int current =start;
+        int next = start;
+        while (next < end){
+            if(input[next] < pivot){
+                swap(input, next, current);
+                current++;
+            }
+            next++;
+        }
+        swap(input, current, end);
+        return current;
+
+    }
 }
