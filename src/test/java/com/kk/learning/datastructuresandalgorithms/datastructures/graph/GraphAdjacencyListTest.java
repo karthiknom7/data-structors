@@ -29,21 +29,21 @@ public class GraphAdjacencyListTest {
         graphAdjacencyList.addVertex("Karthik");
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Given vertex(ices) not added");
-        graphAdjacencyList.addEdge("Karthik", "Juttiii");
+        graphAdjacencyList.addBiDirectionalEdge("Karthik", "Juttiii");
     }
 
     @Test
     public void shouldAddEdgesForVertices() {
         GraphAdjacencyList graphAdjacencyList = new GraphAdjacencyList();
         String karthik = "Karthik";
-        graphAdjacencyList.addVertex(karthik);
         String juttiii = "Juttiii";
-        graphAdjacencyList.addVertex(juttiii);
         String ram = "Ram";
-        graphAdjacencyList.addVertex(ram);
+        graphAdjacencyList.addVertex(karthik);
+        graphAdjacencyList.addVertex(juttiii);
+        graphAdjacencyList.addVertex(ram);;
 
-        graphAdjacencyList.addEdge(karthik, juttiii);
-        graphAdjacencyList.addEdge(karthik, ram);
+        graphAdjacencyList.addBiDirectionalEdge(karthik, juttiii);
+        graphAdjacencyList.addBiDirectionalEdge(karthik, ram);
         Map<Vertex, List<Vertex>> adjVertices = graphAdjacencyList.getAdjVertices();
         assertTrue(adjVertices.get(new Vertex(karthik)).contains(new Vertex(juttiii)));
         assertTrue(adjVertices.get(new Vertex(karthik)).contains(new Vertex(ram)));
@@ -51,18 +51,38 @@ public class GraphAdjacencyListTest {
         assertTrue(adjVertices.get(new Vertex(juttiii)).contains(new Vertex(karthik)));
     }
 
+
+    @Test
+    public void shouldAddSingleEdgeForVertices() {
+        GraphAdjacencyList graphAdjacencyList = new GraphAdjacencyList();
+        String karthik = "Karthik";
+        String juttiii = "Juttiii";
+        String ram = "Ram";
+        graphAdjacencyList.addVertex(karthik);
+        graphAdjacencyList.addVertex(juttiii);
+        graphAdjacencyList.addVertex(ram);
+
+        graphAdjacencyList.addSingleDirectionalEdge(karthik, juttiii);
+        graphAdjacencyList.addSingleDirectionalEdge(karthik, ram);
+        Map<Vertex, List<Vertex>> adjVertices = graphAdjacencyList.getAdjVertices();
+        assertTrue(adjVertices.get(new Vertex(karthik)).contains(new Vertex(juttiii)));
+        assertTrue(adjVertices.get(new Vertex(karthik)).contains(new Vertex(ram)));
+        assertFalse(adjVertices.get(new Vertex(ram)).contains(new Vertex(karthik)));
+        assertFalse(adjVertices.get(new Vertex(juttiii)).contains(new Vertex(karthik)));
+    }
+
     @Test
     public void shouldRemoveVertices() {
         GraphAdjacencyList graphAdjacencyList = new GraphAdjacencyList();
         String karthik = "Karthik";
-        graphAdjacencyList.addVertex(karthik);
         String juttiii = "Juttiii";
-        graphAdjacencyList.addVertex(juttiii);
         String ram = "Ram";
+        graphAdjacencyList.addVertex(karthik);
+        graphAdjacencyList.addVertex(juttiii);
         graphAdjacencyList.addVertex(ram);
 
-        graphAdjacencyList.addEdge(karthik, juttiii);
-        graphAdjacencyList.addEdge(karthik, ram);
+        graphAdjacencyList.addBiDirectionalEdge(karthik, juttiii);
+        graphAdjacencyList.addBiDirectionalEdge(karthik, ram);
         graphAdjacencyList.removeVertex(ram);
         Map<Vertex, List<Vertex>> adjVertices = graphAdjacencyList.getAdjVertices();
         assertTrue(adjVertices.get(new Vertex(karthik)).contains(new Vertex(juttiii)));
@@ -75,15 +95,15 @@ public class GraphAdjacencyListTest {
     public void shouldremoveEdgesForVertices() {
         GraphAdjacencyList graphAdjacencyList = new GraphAdjacencyList();
         String karthik = "Karthik";
-        graphAdjacencyList.addVertex(karthik);
         String juttiii = "Juttiii";
-        graphAdjacencyList.addVertex(juttiii);
         String ram = "Ram";
+        graphAdjacencyList.addVertex(karthik);
+        graphAdjacencyList.addVertex(juttiii);
         graphAdjacencyList.addVertex(ram);
 
-        graphAdjacencyList.addEdge(karthik, juttiii);
-        graphAdjacencyList.addEdge(karthik, ram);
-        graphAdjacencyList.removeEdge(karthik,ram);
+        graphAdjacencyList.addBiDirectionalEdge(karthik, juttiii);
+        graphAdjacencyList.addBiDirectionalEdge(karthik, ram);
+        graphAdjacencyList.removeBiDirectionalEdge(karthik,ram);
         Map<Vertex, List<Vertex>> adjVertices = graphAdjacencyList.getAdjVertices();
         assertTrue(adjVertices.get(new Vertex(karthik)).contains(new Vertex(juttiii)));
         assertFalse(adjVertices.get(new Vertex(karthik)).contains(new Vertex(ram)));
@@ -100,12 +120,12 @@ public class GraphAdjacencyListTest {
         graph.addVertex("Mark");
         graph.addVertex("Rob");
         graph.addVertex("Maria");
-        graph.addEdge("Bob", "Alice");
-        graph.addEdge("Bob", "Rob");
-        graph.addEdge("Alice", "Mark");
-        graph.addEdge("Rob", "Mark");
-        graph.addEdge("Alice", "Maria");
-        graph.addEdge("Rob", "Maria");
+        graph.addBiDirectionalEdge("Bob", "Alice");
+        graph.addBiDirectionalEdge("Bob", "Rob");
+        graph.addBiDirectionalEdge("Alice", "Mark");
+        graph.addBiDirectionalEdge("Rob", "Mark");
+        graph.addBiDirectionalEdge("Alice", "Maria");
+        graph.addBiDirectionalEdge("Rob", "Maria");
 
         Set<String> output = graph.breadthFirstTraverse("Bob");
 
@@ -123,14 +143,14 @@ public class GraphAdjacencyListTest {
         graph.addVertex("p");
         graph.addVertex("l");
         graph.addVertex("n");
-        graph.addEdge("k", "j");
-        graph.addEdge("k", "r");
-        graph.addEdge("r", "l");
-        graph.addEdge("l", "n");
-        graph.addEdge("n", "m");
-        graph.addEdge("m", "j");
-        graph.addEdge("j", "p");
-        graph.addEdge("n", "p");
+        graph.addBiDirectionalEdge("k", "j");
+        graph.addBiDirectionalEdge("k", "r");
+        graph.addBiDirectionalEdge("r", "l");
+        graph.addBiDirectionalEdge("l", "n");
+        graph.addBiDirectionalEdge("n", "m");
+        graph.addBiDirectionalEdge("m", "j");
+        graph.addBiDirectionalEdge("j", "p");
+        graph.addBiDirectionalEdge("n", "p");
 
         Set<String> output = graph.breadthFirstTraverse("k");
 
@@ -149,16 +169,108 @@ public class GraphAdjacencyListTest {
         graph.addVertex("m");
         graph.addVertex("p");
 
-        graph.addEdge("k", "j");
-        graph.addEdge("k", "r");
-        graph.addEdge("r", "m");
-        graph.addEdge("m", "p");
-        graph.addEdge("p", "j");
+        graph.addBiDirectionalEdge("k", "j");
+        graph.addBiDirectionalEdge("k", "r");
+        graph.addBiDirectionalEdge("r", "m");
+        graph.addBiDirectionalEdge("m", "p");
+        graph.addBiDirectionalEdge("p", "j");
 
 
         Set<String> output = graph.breadthFirstTraverse("k");
 
         assertEquals("[k, j, r, p, m]", output.toString());
+
+    }
+
+
+    @Test
+    public void shouldTraverseDFT() {
+        GraphAdjacencyList graph = new GraphAdjacencyList();
+        graph.addVertex("k");
+        graph.addVertex("j");
+        graph.addVertex("r");
+        graph.addVertex("m");
+        graph.addVertex("p");
+        graph.addVertex("l");
+        graph.addVertex("n");
+        graph.addBiDirectionalEdge("k", "j");
+        graph.addBiDirectionalEdge("k", "r");
+        graph.addBiDirectionalEdge("r", "l");
+        graph.addBiDirectionalEdge("l", "n");
+        graph.addBiDirectionalEdge("n", "m");
+        graph.addBiDirectionalEdge("m", "j");
+        graph.addBiDirectionalEdge("j", "p");
+        graph.addBiDirectionalEdge("n", "p");
+
+        Set<String> output = graph.depthFirstTraverse("k");
+
+        assertEquals("[k, r, l, n, p, j, m]", output.toString());
+
+    }
+
+    @Test
+    public void shouldTraverseDFT2() {
+        GraphAdjacencyList graph = new GraphAdjacencyList();
+        graph.addVertex("Bob");
+        graph.addVertex("Alice");
+        graph.addVertex("Mark");
+        graph.addVertex("Rob");
+        graph.addVertex("Maria");
+        graph.addBiDirectionalEdge("Bob", "Alice");
+        graph.addBiDirectionalEdge("Bob", "Rob");
+        graph.addBiDirectionalEdge("Alice", "Mark");
+        graph.addBiDirectionalEdge("Rob", "Mark");
+        graph.addBiDirectionalEdge("Alice", "Maria");
+        graph.addBiDirectionalEdge("Rob", "Maria");
+
+        Set<String> output = graph.depthFirstTraverse("Bob");
+
+        assertEquals("[Bob, Rob, Maria, Alice, Mark]", output.toString());
+
+    }
+
+    @Test
+    public void shouldReturnSimpleTopologicalSort() {
+        GraphAdjacencyList graph = new GraphAdjacencyList();
+        graph.addVertex("A");
+        graph.addVertex("B");
+        graph.addVertex("C");
+        graph.addVertex("F");
+
+        graph.addSingleDirectionalEdge("A", "B");
+        graph.addSingleDirectionalEdge("A", "C");
+        graph.addSingleDirectionalEdge("C", "B");
+        graph.addSingleDirectionalEdge("B", "F");
+
+
+        Set<String> output = graph.topologicalSort("A");
+
+        assertEquals("[A, C, B, F]", output.toString());
+
+    }
+
+
+    @Test
+    public void shouldReturnComplexTopologicalSort() {
+        GraphAdjacencyList graph = new GraphAdjacencyList();
+        graph.addVertex("A");
+        graph.addVertex("B");
+        graph.addVertex("C");
+        graph.addVertex("D");
+        graph.addVertex("F");
+        graph.addVertex("K");
+
+        graph.addSingleDirectionalEdge("A", "K");
+        graph.addSingleDirectionalEdge("A", "D");
+        graph.addSingleDirectionalEdge("K", "B");
+        graph.addSingleDirectionalEdge("K", "C");
+        graph.addSingleDirectionalEdge("B", "D");
+        graph.addSingleDirectionalEdge("C", "D");
+        graph.addSingleDirectionalEdge("D", "F");
+
+        Set<String> output = graph.topologicalSort("A");
+
+        assertEquals("[A, K, C, B, D, F]", output.toString());
 
     }
 

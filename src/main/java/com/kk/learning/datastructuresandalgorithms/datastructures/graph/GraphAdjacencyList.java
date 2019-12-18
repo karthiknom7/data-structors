@@ -17,7 +17,7 @@ public class GraphAdjacencyList {
         adjVertices.putIfAbsent(new Vertex(label), new ArrayList<Vertex>());
     }
 
-    public void addEdge(String lable1, String lable2){
+    public void addBiDirectionalEdge(String lable1, String lable2){
         Vertex vertex1 = new Vertex(lable1);
         Vertex vertext2 = new Vertex(lable2);
         if(!adjVertices.containsKey(vertex1) || !adjVertices.containsKey(vertext2)){
@@ -27,6 +27,15 @@ public class GraphAdjacencyList {
         adjVertices.get(vertext2).add(vertex1);
     }
 
+    public void addSingleDirectionalEdge(String lable1, String lable2) {
+        Vertex vertex1 = new Vertex(lable1);
+        Vertex vertext2 = new Vertex(lable2);
+        if (!adjVertices.containsKey(vertex1) || !adjVertices.containsKey(vertext2)) {
+            throw new IllegalArgumentException("Given vertex(ices) not added");
+        }
+        adjVertices.get(vertex1).add(vertext2);
+    }
+
 
     public void removeVertex(String lable) {
         Vertex vertex = new Vertex(lable);
@@ -34,7 +43,7 @@ public class GraphAdjacencyList {
         adjVertices.remove(vertex);
     }
 
-    public void removeEdge(String lable1, String lable2){
+    public void removeBiDirectionalEdge(String lable1, String lable2){
         Vertex vertex1 = new Vertex(lable1);
         Vertex vertex2 = new Vertex(lable2);
         if(!adjVertices.containsKey(vertex1) || !adjVertices.containsKey(vertex2)){
@@ -60,5 +69,48 @@ public class GraphAdjacencyList {
             }
         }
         return visited;
+    }
+
+    public Set<String> depthFirstTraverse(String root) {
+        Set<String> visited = new LinkedHashSet<>();
+        Stack<String> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()){
+            String vertex = stack.pop();
+            if(!visited.contains(vertex)){
+                visited.add(vertex);
+                List<Vertex> adjacentVertices = adjVertices.get(new Vertex(vertex));
+                for (Vertex v : adjacentVertices){
+                    stack.push(v.getLable());
+                }
+            }
+        }
+        return visited;
+    }
+
+    public Set<String> topologicalSort(String root){
+        Set<String> visited = new LinkedHashSet<>();
+        Stack<String> stack = new Stack<String>();
+        for(Vertex v : adjVertices.keySet()){
+            topologicalTraverse(v, stack, visited);
+        }
+        Set<String> sortOrder = new LinkedHashSet<>();
+        while (!stack.isEmpty()){
+            sortOrder.add(stack.pop());
+        }
+        return sortOrder;
+    }
+
+    private void topologicalTraverse(Vertex v, Stack<String> stack, Set<String> visited){
+        if(!visited.contains(v.getLable())){
+            visited.add(v.getLable());
+            List<Vertex> vertices = adjVertices.get(v);
+            if(!vertices.isEmpty()){
+                for (Vertex neighbourVertex: vertices){
+                    topologicalTraverse(neighbourVertex, stack, visited);
+                }
+            }
+            stack.push(v.getLable());
+        }
     }
 }
