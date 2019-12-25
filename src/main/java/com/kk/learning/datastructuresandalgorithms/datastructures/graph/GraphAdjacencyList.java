@@ -17,9 +17,9 @@ public class GraphAdjacencyList {
         adjVertices.putIfAbsent(new Vertex(label), new ArrayList<Vertex>());
     }
 
-    public void addBiDirectionalEdge(String lable1, String lable2){
-        Vertex vertex1 = new Vertex(lable1);
-        Vertex vertext2 = new Vertex(lable2);
+    public void addBiDirectionalEdge(String label1, String label2){
+        Vertex vertex1 = new Vertex(label1);
+        Vertex vertext2 = new Vertex(label2);
         if(!adjVertices.containsKey(vertex1) || !adjVertices.containsKey(vertext2)){
             throw new IllegalArgumentException("Given vertex(ices) not added");
         }
@@ -27,9 +27,9 @@ public class GraphAdjacencyList {
         adjVertices.get(vertext2).add(vertex1);
     }
 
-    public void addSingleDirectionalEdge(String lable1, String lable2) {
-        Vertex vertex1 = new Vertex(lable1);
-        Vertex vertext2 = new Vertex(lable2);
+    public void addSingleDirectionalEdge(String label1, String label2) {
+        Vertex vertex1 = new Vertex(label1);
+        Vertex vertext2 = new Vertex(label2);
         if (!adjVertices.containsKey(vertex1) || !adjVertices.containsKey(vertext2)) {
             throw new IllegalArgumentException("Given vertex(ices) not added");
         }
@@ -37,15 +37,15 @@ public class GraphAdjacencyList {
     }
 
 
-    public void removeVertex(String lable) {
-        Vertex vertex = new Vertex(lable);
+    public void removeVertex(String label) {
+        Vertex vertex = new Vertex(label);
         adjVertices.values().stream().forEach(e -> e.remove(vertex));
         adjVertices.remove(vertex);
     }
 
-    public void removeBiDirectionalEdge(String lable1, String lable2){
-        Vertex vertex1 = new Vertex(lable1);
-        Vertex vertex2 = new Vertex(lable2);
+    public void removeBiDirectionalEdge(String label1, String label2){
+        Vertex vertex1 = new Vertex(label1);
+        Vertex vertex2 = new Vertex(label2);
         if(!adjVertices.containsKey(vertex1) || !adjVertices.containsKey(vertex2)){
             throw new IllegalArgumentException("Given vertex(ices) not added");
         }
