@@ -65,26 +65,13 @@ public class AvlTreeNode {
     }
 
 
-    public int avlInsert(Integer data) {
-        int leftHeight = 0;
-        int rightHeight = 0;
-        if (this.data > data) {
-            if (this.rightChild != null) {
-                rightHeight = this.rightChild.avlInsert(data);
-            } else {
-                this.rightChild = new AvlTreeNode(data);
-                rightHeight = rightHeight + 1;
-            }
-        } else {
-            if (this.leftChild != null) {
-                leftHeight = this.leftChild.avlInsert(data);
-            } else {
-                this.leftChild = new AvlTreeNode(data);
-                leftHeight = leftHeight + 1;
-            }
-        }
-        this.height = Math.max(rightHeight, leftHeight) ;
-        return height + 1;
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
 }
