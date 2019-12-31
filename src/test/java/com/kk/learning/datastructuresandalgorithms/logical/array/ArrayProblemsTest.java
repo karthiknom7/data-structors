@@ -64,4 +64,25 @@ public class ArrayProblemsTest {
         int distanceBetween = arrayProblems.findDistanceBetween(3, 6,input);
         assertEquals(4, distanceBetween );
     }
+
+    @Test
+    public void shouldMaxSumOfSubArrayNotConsiderAdjacentElements() {
+        input = new int[]{5, 5, 10, 100, 10, 5};
+        int maxSumOfNoAdjacentElemets = arrayProblems.maxSumOfNoAdjacentElements(input);
+        assertEquals(110, maxSumOfNoAdjacentElemets );
+    }
+
+    @Test
+    public void shouldMaxSumOfSubArrayNotConsiderAdjacentElements2() {
+        input = new int[]{1,2,3};
+        int maxSumOfNoAdjacentElemets = arrayProblems.maxSumOfNoAdjacentElements(input);
+        assertEquals(4, maxSumOfNoAdjacentElemets );
+    }
+
+    @Test
+    public void shouldMaxSumOfSubArrayNotConsiderAdjacentElements3() {
+        input = new int[]{1,20,3};
+        int maxSumOfNoAdjacentElemets = arrayProblems.maxSumOfNoAdjacentElements(input);
+        assertEquals(20, maxSumOfNoAdjacentElemets );
+    }
 }

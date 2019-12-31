@@ -24,6 +24,7 @@ public class LongestSubSequence {
         } else {
             return removingFromS2Char;
         }
+
     }
 
 }

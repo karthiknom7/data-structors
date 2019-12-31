@@ -94,4 +94,21 @@ public class AVLTreeTest {
         assertEquals("[10,9,15,14,16,]", avlTree.preOrderTravers());
     }
 
+    @Test
+    public void shouldInsertNodesAndSolveAllConditionsProblemForMoreElements() {
+        AVLTree avlTree = new AVLTree();
+        avlTree.insertNode(30);
+        avlTree.insertNode(20);
+        avlTree.insertNode(40);
+        avlTree.insertNode(10);
+        avlTree.insertNode(5);
+        avlTree.insertNode(3);
+        avlTree.insertNode(4);
+        avlTree.insertNode(50);
+        avlTree.insertNode(60);
+        avlTree.insertNode(70);
+        avlTree.insertNode(65);
+        assertEquals("[10,4,3,5,50,30,20,40,65,60,70,]", avlTree.preOrderTravers());
+    }
+
 }
