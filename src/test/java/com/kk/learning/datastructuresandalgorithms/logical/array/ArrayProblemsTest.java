@@ -85,4 +85,34 @@ public class ArrayProblemsTest {
         int maxSumOfNoAdjacentElemets = arrayProblems.maxSumOfNoAdjacentElements(input);
         assertEquals(20, maxSumOfNoAdjacentElemets );
     }
+
+    @Test
+    public void shouldConvertGivenArrayToZigZgaFashion() {
+        input = new int[]{4, 3, 7, 8, 6, 2, 1};
+        int[] expected = new int[]{3, 7, 4, 8, 2, 6, 1};
+        arrayProblems.convertToZigZagArray(input);
+        assertArrayEquals(expected, input);
+    }
+
+
+
+    @Test
+    public void shouldReturnMaxLengthOfSubArray1() {
+        input = new int[] {10, 12, 11};
+        int lengthOfMaxSubArray = arrayProblems.findLengthOfMaxSubArray(input);
+        assertEquals(2, lengthOfMaxSubArray);
+    }
+
+    @Test
+    public void shouldReturnMaxLengthOfSubArray2() {
+        input = new int[] {14, 12, 11, 20};
+        int lengthOfMaxSubArray = arrayProblems.findLengthOfMaxSubArray(input);
+        assertEquals(2, lengthOfMaxSubArray);
+    }
+    @Test
+    public void shouldReturnMaxLengthOfSubArray3() {
+        input = new int[] {1, 56, 58, 57, 90, 92, 94, 93, 91, 45};
+        int lengthOfMaxSubArray = arrayProblems.findLengthOfMaxSubArray(input);
+        assertEquals(4, lengthOfMaxSubArray);
+    }
 }

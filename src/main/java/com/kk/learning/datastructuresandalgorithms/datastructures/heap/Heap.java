@@ -5,26 +5,26 @@ import java.util.Arrays;
 public class Heap {
 
     private int[] elements;
-    private int size;
+    private int currentPosition;
 
 
-    public Heap(int size){
-        elements = new int[size];
-        this.size = -1;
+    public Heap(int initialSize) {
+        elements = new int[initialSize + 1];
+        this.currentPosition = 0;
     }
 
 
     public void add(int element) {
-        if(size + 1 < elements.length){
-            elements[++size] = element;
-            if(size > 0) {
-                int current = size;
-                while (elements[current] > elements[parent(current)]){
+        if (currentPosition + 1 < elements.length) {
+            elements[++currentPosition] = element;
+            if (currentPosition > 1) {
+                int current = currentPosition;
+                while (elements[current] > elements[parent(current)] && current != 1) {
                     swap(elements, current, parent(current));
                     current = parent(current);
                 }
             }
-        }else throw new RuntimeException("Heap is full");
+        } else throw new RuntimeException("Heap is full");
     }
 
     private void swap(int[] elements, int childIndex, int parent) {
@@ -33,57 +33,58 @@ public class Heap {
         elements[parent] = temp;
     }
 
-    private int parent(int childPosition){
-        int add = childPosition % 2 == 0 ? 2 : 1;
-        int parent = childPosition - add;
-        if(parent <= 0) return 0;
-        return parent / 2;
+    private int parent(int childPosition) {
+        if (childPosition <= 1) return 1;
+        return childPosition / 2;
 
 
-   }
+    }
 
-   private boolean isLeaf(int position){
-        return (elements.length / 2) <= position;
-   }
+    private boolean isLeaf(int position) {
+        return (elements.length / 2)  <= position;
+    }
 
-   private int leftChildPosition(int position){
+    private int leftChildPosition(int position) {
+        return position * 2;
+    }
+
+    private int rightChildPosition(int position) {
         return position * 2 + 1;
-   }
-
-   private int rightChildPosition(int position){
-        return position * 2 + 2;
-   }
+    }
 
     @Override
     public String toString() {
-        return Arrays.toString(Arrays.copyOf(elements, size+1));
+        int destArra[] = new int[elements.length-1];
+        System.arraycopy(elements, 1, destArra, 0, elements.length-1);
+        return Arrays.toString(destArra);
     }
 
     public int deleteRoot() {
-        int rootEle = elements[0];
-        elements[0] = elements[size];
-        elements[size--] = 0;
-        heapify(0);
+        int rootEle = elements[1];
+        elements[1] = elements[currentPosition];
+        elements[currentPosition--] = 0;
+        heapify(1);
         return rootEle;
     }
 
-    private void heapify(int position){
-        if(isLeaf(position)) return;
+    private void heapify(int position) {
+        if (isLeaf(position)) return;
         int left = leftChildPosition(position);
         int right = rightChildPosition(position);
         int greaterChild = elements[left] > elements[right] ? left : right;
-        if(elements[position] < elements[greaterChild]){
+        if (elements[position] < elements[greaterChild]) {
             swap(elements, greaterChild, position);
             heapify(greaterChild);
         }
     }
 
-    public int[] heapSort(){
+    public int[] heapSort() {
         int[] sortedArray = new int[elements.length];
-        int currentSize = size;
-        while (currentSize >=0){
+        int currentSize = currentPosition;
+        while (currentSize >= 1) {
             int root = this.deleteRoot();
-            sortedArray[currentSize--] = root;
+            sortedArray[currentSize-1] = root;
+            currentSize --;
         }
         return sortedArray;
     }

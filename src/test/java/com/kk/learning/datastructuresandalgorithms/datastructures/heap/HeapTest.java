@@ -58,14 +58,14 @@ public class HeapTest {
         heap.add(6);
         heap.add(20);
         heap.deleteRoot();
-        assertEquals("[15, 10, 8, 7, 3, 6]", heap.toString());
+        assertEquals("[15, 10, 8, 7, 3, 6, 0]", heap.toString());
 
 
     }
 
     @Test
     public void shouldDoHeapSort() {
-        Heap heap = new Heap(7);
+        Heap heap = new Heap(8);
         heap.add(7);
         heap.add(8);
         heap.add(10);
@@ -73,8 +73,9 @@ public class HeapTest {
         heap.add(3);
         heap.add(6);
         heap.add(20);
+        heap.add(25);
         int[] heapSort = heap.heapSort();
-        assertEquals("[3, 6, 7, 8, 10, 15, 20]", Arrays.toString(heapSort));
+        assertEquals("[3, 6, 7, 8, 10, 15, 20, 25, 0]", Arrays.toString(heapSort));
 
     }
 

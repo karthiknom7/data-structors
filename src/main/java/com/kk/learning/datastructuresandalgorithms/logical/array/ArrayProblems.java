@@ -137,5 +137,43 @@ public class ArrayProblems {
 
     }
 
+    void convertToZigZagArray(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (isEven(i)) {
+                if (arr[i] > arr[i + 1]) {
+                    swap(arr, i, i + 1);
+                }
+            } else {
+                if (arr[i] < arr[i + 1]) {
+                    swap(arr, i, i + 1);
+                }
+            }
+        }
+    }
 
+    private boolean isEven(int num) {
+        return num % 2 == 0;
+    }
+
+    private void swap(int[] arr, int from, int to) {
+        arr[from] = arr[from] + arr[to];
+        arr[to] = arr[from] - arr[to];
+        arr[from] = arr[from] - arr[to];
+    }
+
+
+    int findLengthOfMaxSubArray(int[] arr) {
+        int preSubArrayLength = 0;
+        int curSubArrayLength = 0;
+        for (int index = 0; index < arr.length - 1; index++) {
+            if (arr[index] < arr[index + 1]) {
+                if (curSubArrayLength == 0) curSubArrayLength = 2;
+                else curSubArrayLength++;
+            } else {
+                if (curSubArrayLength > preSubArrayLength) preSubArrayLength = curSubArrayLength;
+                curSubArrayLength = 0;
+            }
+        }
+        return Math.max(preSubArrayLength, curSubArrayLength);
+    }
 }

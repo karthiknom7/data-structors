@@ -1,6 +1,6 @@
 package com.kk.learning.datastructuresandalgorithms.alorithms.divideandconqure;
 
-public class LogestPoindromicSubSequence {
+public class LogestPolindromicSubSequence {
 
     public String findLongestPolindromicSubSequence(String s1, int startIndex, int endIndex) {
 
