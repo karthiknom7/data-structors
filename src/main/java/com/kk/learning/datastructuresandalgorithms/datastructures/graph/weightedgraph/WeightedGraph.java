@@ -1,6 +1,9 @@
 package com.kk.learning.datastructuresandalgorithms.datastructures.graph.weightedgraph;
 
+import javafx.util.Pair;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WeightedGraph {
     private Set<VNode> adjVertices;
@@ -44,17 +47,15 @@ public class WeightedGraph {
 
     public List<Path> shortestPathUsingDijkstra(String startNode) {
         Queue<Path> minHeapQueue = new PriorityQueue<>(Comparator.comparing(Path::getShortestDistance));
-
-        VNode startNodeFound = this.adjVertices.stream().filter(vNode -> startNode.equals(vNode.getLabel())).findFirst().get();
-        Path startNodePath = new Path(startNodeFound, 0);
-
         Map<VNode, Path> nodeAndPath = new LinkedHashMap<>();
-        nodeAndPath.put(startNodeFound, startNodePath);
-        minHeapQueue.add(startNodePath);
 
         for (VNode vertex : this.adjVertices) {
-            if (!vertex.equals(startNodeFound)) {
+            if (!startNode.equals(vertex.getLabel())) {
                 Path path = new Path(vertex, Integer.MAX_VALUE);
+                minHeapQueue.add(path);
+                nodeAndPath.put(vertex, path);
+            } else {
+                Path path = new Path(vertex, 0);
                 minHeapQueue.add(path);
                 nodeAndPath.put(vertex, path);
             }
@@ -73,10 +74,68 @@ public class WeightedGraph {
                 if (distance < neighbourDistance) {
                     neighbourPath.setShortestDistance(distance);
                     neighbourPath.setParent(currentNode);
+                    updateQueue(minHeapQueue);
                 }
             }
         }
 
+        return new ArrayList<>(nodeAndPath.values());
+    }
+
+    private void updateQueue(Queue<Path> minHeapQueue) {
+        Path poll = minHeapQueue.poll();
+        minHeapQueue.add(poll);
+    }
+
+
+    public List<Path> shortestPathUsingBellmanFord(String startNodeStr) {
+        Map<VNode, Path> nodeAndPath = new LinkedHashMap<>();
+
+        for (VNode vertex : this.adjVertices) {
+            if (!startNodeStr.equals(vertex.getLabel())) {
+                Path path = new Path(vertex, Integer.MAX_VALUE);
+                nodeAndPath.put(vertex, path);
+            } else {
+                Path path = new Path(vertex, 0);
+                nodeAndPath.put(vertex, path);
+            }
+
+        }
+
+        List<Pair> edgePairs = adjVertices.stream().flatMap(vNode ->
+                vNode.getEdges().stream().map(edge -> new Pair(vNode, edge))
+        ).collect(Collectors.toList());
+
+        for (int i = 0; i < this.adjVertices.size() - 1; i++) {
+            for (Pair<VNode, Edge> edgePair : edgePairs) {
+                VNode currentNode = edgePair.getKey();
+                Edge edge = edgePair.getValue();
+
+                Path pathToNeighbour = nodeAndPath.get(edge.getDestination());
+                Integer currentNodeDistance = nodeAndPath.get(currentNode).getShortestDistance();
+
+                Integer distanceFormCurrentNodeToNeighbour = currentNodeDistance != Integer.MAX_VALUE ? currentNodeDistance + edge.getWeight() : currentNodeDistance;
+                if (distanceFormCurrentNodeToNeighbour < pathToNeighbour.getShortestDistance()) {
+                    pathToNeighbour.setShortestDistance(distanceFormCurrentNodeToNeighbour);
+                    pathToNeighbour.setParent(currentNode);
+                }
+
+            }
+        }
+        for (Pair<VNode, Edge> edgePair : edgePairs) {
+            VNode currentNode = edgePair.getKey();
+            Edge edge = edgePair.getValue();
+            Path currentNodePath = nodeAndPath.get(currentNode);
+            Integer currentNodeDistance = currentNodePath.getShortestDistance();
+
+            Path neighbourPath = nodeAndPath.get(edge.getDestination());
+            int distanceFromCurrentNodeToNeighbur = currentNodeDistance + edge.getWeight();
+
+            if (distanceFromCurrentNodeToNeighbur < neighbourPath.getShortestDistance()
+                    && distanceFromCurrentNodeToNeighbur != neighbourPath.getShortestDistance()) {
+                throw new RuntimeException("Graph has Negative Cycle");
+            }
+        }
         return new ArrayList<>(nodeAndPath.values());
     }
 }
